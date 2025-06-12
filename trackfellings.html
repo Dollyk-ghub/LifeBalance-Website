@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FeelingsTracker | Emotional Wellness Companion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3a506b;
+            --secondary-color: #5bc0be;
+            --accent-color: #6fffe9;
+            --dark-color: #1c2541;
+            --light-color: #f8f9fa;
+            --text-dark: #212529;
+            --text-light: #f8f9fa;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--light-color);
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+        }
+        
+        /* Navigation */
+        .main-nav {
+            background-color: var(--primary-color);
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--light-color);
+            letter-spacing: 1px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--light-color);
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            padding: 0.5rem 0;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Header */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+            color: var(--light-color);
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
+            opacity: 0.5;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            opacity: 0.9;
+        }
+        
+        /* Secondary Navigation */
+        .sub-nav {
+            background-color: var(--light-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 68px;
+            z-index: 90;
+        }
+        
+        .sub-nav ul {
+            display: flex;
+            list-style: none;
+            justify-content: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .sub-nav li {
+            margin: 0;
+        }
+        
+        .sub-nav a {
+            color: var(--primary-color);
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+            display: block;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .sub-nav a.active {
+            color: var(--secondary-color);
+        }
+        
+        .sub-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            height: 3px;
+            background-color: var(--secondary-color);
+            border-radius: 3px 3px 0 0;
+        }
+        
+        .sub-nav a:hover {
+            color: var(--secondary-color);
+        }
+        
+        /* Main Content */
+        .container {
+            max-width: 1000px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+        
+        .tool-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            display: none;
+            transition: var(--transition);
+        }
+        
+        .tool-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tool-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            font-size: 1.8rem;
+        }
+        
+        .tool-section p {
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+        
+        /* Mood Tracker */
+        .mood-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .mood-option {
+            text-align: center;
+            cursor: pointer;
+            padding: 1.5rem 1rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            background-color: var(--light-color);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .mood-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-color: var(--secondary-color);
+        }
+        
+        .mood-option.selected {
+            background-color: var(--secondary-color);
+            color: white;
+            border-color: var(--secondary-color);
+        }
+        
+        .mood-option.selected .mood-emoji {
+            transform: scale(1.1);
+        }
+        
+        .mood-emoji {
+            font-size: 3rem;
+            margin-bottom: 0.75rem;
+            transition: var(--transition);
+        }
+        
+        .mood-option div:last-child {
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        
+        #mood-result {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: rgba(91, 192, 190, 0.1);
+            border-radius: 8px;
+            color: var(--primary-color);
+            font-weight: 500;
+            display: none;
+        }
+        
+        /* Breathing Exercises */
+        .breathing-container {
+            text-align: center;
+            margin: 3rem 0;
+        }
+        
+        .breathing-circle {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            border-radius: 50%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            animation: breathe 8s infinite;
+            box-shadow: 0 10px 30px rgba(91, 192, 190, 0.3);
+            transition: var(--transition);
+        }
+        
+        @keyframes breathe {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 10px 30px rgba(91, 192, 190, 0.3);
+            }
+            50% { 
+                transform: scale(1.1);
+                box-shadow: 0 15px 40px rgba(91, 192, 190, 0.4);
+            }
+        }
+        
+        .breathing-instructions {
+            margin-top: 1.5rem;
+            font-style: italic;
+            color: #666;
+        }
+        
+        .breathing-controls {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        /* Sleep Log */
+        .sleep-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+        
+        .form-group input, 
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Roboto', sans-serif;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus, 
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(91, 192, 190, 0.2);
+        }
+        
+        .sleep-entries {
+            margin-top: 3rem;
+        }
+        
+        .sleep-entries h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .sleep-entry {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .sleep-entry h3 {
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .sleep-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .sleep-entry p {
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Buttons */
+        button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            letter-spacing: 0.5px;
+        }
+        
+        button:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        button.secondary {
+            background-color: white;
+            color: var(--primary-color);
+            border: 1px solid #ddd;
+        }
+        
+        button.secondary:hover {
+            background-color: var(--light-color);
+            border-color: var(--secondary-color);
+        }
+        
+        button.danger {
+            background-color: #e63946;
+        }
+        
+        button.danger:hover {
+            background-color: #c1121f;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-nav {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                margin-top: 1rem;
+                gap: 1rem;
+            }
+            
+            .hero {
+                padding: 3rem 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .sub-nav ul {
+                flex-wrap: wrap;
+            }
+            
+            .sub-nav a {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .tool-section {
+                padding: 1.5rem;
+            }
+            
+            .sleep-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .mood-options {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .mood-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .breathing-circle {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="logo">LifeBalance</div>
+        <div class="nav-links">
+            <a href="#" onclick="location.href='habittracker.html'">Habit Tracker</a>
+            <a href="#" onclick="location.href='accessibility.html'">Settings</a>
+        </div>
+    </nav>
+    
+    <header class="hero">
+        <h1>Emotional Wellness Tracker</h1>
+        <p>Monitor your moods, practice mindfulness, and improve your sleep patterns for better mental health</p>
+    </header>
+    
+    <nav class="sub-nav">
+        <ul>
+            <li><a href="#" class="nav-link active" data-section="mood">Mood Tracker</a></li>
+            <li><a href="#" class="nav-link" data-section="breathing">Breathing Exercises</a></li>
+            <li><a href="#" class="nav-link" data-section="sleep">Sleep Log</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Mood Tracker Section -->
+        <section id="mood" class="tool-section active">
+            <h2>Daily Mood Assessment</h2>
+            <p>Select how you're feeling today to track your emotional patterns over time.</p>
+            
+            <div class="mood-options">
+                <div class="mood-option" data-mood="happy">
+                    <div class="mood-emoji">😊</div>
+                    <div>Happy</div>
+                </div>
+                <div class="mood-option" data-mood="neutral">
+                    <div class="mood-emoji">😐</div>
+                    <div>Neutral</div>
+                </div>
+                <div class="mood-option" data-mood="sad">
+                    <div class="mood-emoji">😞</div>
+                    <div>Sad</div>
+                </div>
+                <div class="mood-option" data-mood="angry">
+                    <div class="mood-emoji">😠</div>
+                    <div>Angry</div>
+                </div>
+                <div class="mood-option" data-mood="anxious">
+                    <div class="mood-emoji">😰</div>
+                    <div>Anxious</div>
+                </div>
+                <div class="mood-option" data-mood="excited">
+                    <div class="mood-emoji">🤩</div>
+                    <div>Excited</div>
+                </div>
+            </div>
+            
+            <div id="mood-result"></div>
+            
+            <div class="form-group" style="margin-top: 2rem; display: none;" id="mood-notes-container">
+                <label for="mood-notes">Additional Notes (Optional)</label>
+                <textarea id="mood-notes" rows="3" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px;"></textarea>
+                <button style="margin-top: 1rem;" id="save-mood">Save Mood Entry</button>
+            </div>
+        </section>
+
+        <!-- Breathing Exercises Section -->
+        <section id="breathing" class="tool-section">
+            <h2>Mindful Breathing Exercises</h2>
+            <p>Reduce stress and anxiety with this simple breathing technique. Practice for 5-10 minutes daily.</p>
+            
+            <div class="breathing-container">
+                <div class="breathing-circle" id="breath-circle">
+                    Breathe In
+                </div>
+                <p class="breathing-instructions">Follow the animation: Inhale as the circle expands, exhale as it contracts</p>
+                
+                <div class="breathing-controls">
+                    <button id="start-breathing">Begin Session</button>
+                    <button id="stop-breathing" class="secondary" style="display: none;">Pause</button>
+                </div>
+                
+                <div style="margin-top: 2rem; display: none;" id="breathing-timer">
+                    <p>Session duration: <span id="timer-display">00:00</span></p>
+                </div>
+            </div>
+            
+            <div style="margin-top: 2rem; background-color: rgba(251, 251, 251, 0.9); padding: 1.5rem; border-radius: 8px;">
+                <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--primary-color);">Breathing Technique Benefits</h3>
+                <ul style="list-style-position: inside; color: #555;">
+                    <li style="margin-bottom: 0.5rem;">Reduces stress and anxiety levels</li>
+                    <li style="margin-bottom: 0.5rem;">Improves focus and mental clarity</li>
+                    <li style="margin-bottom: 0.5rem;">Lowers blood pressure</li>
+                    <li style="margin-bottom: 0.5rem;">Promotes better sleep</li>
+                    <li>Enhances emotional regulation</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Sleep Log Section -->
+        <section id="sleep" class="tool-section">
+            <h2>Sleep Pattern Tracker</h2>
+            <p>Consistent sleep tracking can help identify patterns and improve sleep quality.</p>
+            
+            <form id="sleepForm" class="sleep-form">
+                <div class="form-group">
+                    <label for="bedtime">Bedtime</label>
+                    <input type="time" id="bedtime" required>
+                </div>
+                <div class="form-group">
+                    <label for="waketime">Wake Time</label>
+                    <input type="time" id="waketime" required>
+                </div>
+                <div class="form-group">
+                    <label for="sleep-quality">Sleep Quality</label>
+                    <select id="sleep-quality" required>
+                        <option value="">Select quality</option>
+                        <option value="excellent">Excellent - Rested and refreshed</option>
+                        <option value="good">Good - Mostly rested</option>
+                        <option value="fair">Fair - Somewhat tired</option>
+                        <option value="poor">Poor - Very tired</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="dreams">Dreams Remembered</label>
+                    <input type="number" id="dreams" min="0" value="0">
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label for="notes">Additional Notes</label>
+                    <textarea id="notes" rows="3" placeholder="Any factors affecting your sleep (caffeine, stress, etc.)"></textarea>
+                </div>
+
+                <button type="submit" style="grid-column: span 2;">Save Sleep Log</button>
+            </form>
+
+            <!-- Sleep Log Entries Display -->
+            <div class="sleep-entries" id="sleepEntries">
+                <h3>Sleep History</h3>
+                <p style="color: #666; margin-bottom: 1rem;">Your recent sleep entries will appear here</p>
+                <!-- Entries will be added dynamically -->
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Navigation system
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Update active nav link
+                document.querySelectorAll('.nav-link').forEach(navLink => {
+                    navLink.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Hide all sections
+                document.querySelectorAll('.tool-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+
+                // Show selected section
+                const sectionId = this.getAttribute('data-section');
+                document.getElementById(sectionId).classList.add('active');
+                
+                // Smooth scroll to section
+                document.getElementById(sectionId).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Mood tracker functionality
+        document.querySelectorAll('.mood-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove selected class from all options
+                document.querySelectorAll('.mood-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Add selected class to clicked option
+                this.classList.add('selected');
+                
+                const mood = this.getAttribute('data-mood');
+                const moodText = this.querySelector('div:last-child').textContent;
+                const moodResult = document.getElementById('mood-result');
+                
+                moodResult.textContent = `You're feeling ${moodText.toLowerCase()} today.`;
+                moodResult.style.display = 'block';
+                
+                // Show notes field
+                document.getElementById('mood-notes-container').style.display = 'block';
+                
+                // In a real app, you would save this to a database
+                console.log(`User mood: ${mood}`);
+            });
+        });
+        
+        // Save mood with notes
+        document.getElementById('save-mood').addEventListener('click', function() {
+            const selectedMood = document.querySelector('.mood-option.selected');
+            if (!selectedMood) {
+                alert('Please select a mood first');
+                return;
+            }
+            
+            const moodText = selectedMood.querySelector('div:last-child').textContent;
+            const notes = document.getElementById('mood-notes').value;
+            
+            // In a real app, save to database
+            console.log(`Saved mood: ${moodText}, Notes: ${notes}`);
+            
+            // Show confirmation
+            document.getElementById('mood-result').textContent = `Your ${moodText.toLowerCase()} mood has been saved.`;
+            document.getElementById('mood-result').style.backgroundColor = 'rgba(91, 192, 190, 0.2)';
+            
+            // Reset form
+            document.querySelectorAll('.mood-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            document.getElementById('mood-notes').value = '';
+            document.getElementById('mood-notes-container').style.display = 'none';
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                document.getElementById('mood-result').style.display = 'none';
+            }, 3000);
+        });
+
+        // Breathing exercise functionality
+        const startBtn = document.getElementById('start-breathing');
+        const stopBtn = document.getElementById('stop-breathing');
+        const breathCircle = document.getElementById('breath-circle');
+        const timerDisplay = document.getElementById('timer-display');
+        
+        let breathingInterval;
+        let seconds = 0;
+        let timerInterval;
+        
+        startBtn.addEventListener('click', function() {
+            this.style.display = 'none';
+            stopBtn.style.display = 'inline-block';
+            document.getElementById('breathing-timer').style.display = 'block';
+            
+            let isInhale = true;
+            breathCircle.textContent = 'Breathe In';
+            
+            // Start timer
+            seconds = 0;
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                seconds++;
+                updateTimerDisplay();
+            }, 1000);
+            
+            // Breathing animation
+            breathingInterval = setInterval(() => {
+                isInhale = !isInhale;
+                breathCircle.textContent = isInhale ? 'Breathe In' : 'Breathe Out';
+            }, 4000);
+        });
+        
+        function updateTimerDisplay() {
+            const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const secs = (seconds % 60).toString().padStart(2, '0');
+            timerDisplay.textContent = `${mins}:${secs}`;
+        }
+        
+        stopBtn.addEventListener('click', function() {
+            this.style.display = 'none';
+            startBtn.style.display = 'inline-block';
+            clearInterval(breathingInterval);
+            clearInterval(timerInterval);
+            
+            breathCircle.style.animation = 'none';
+            setTimeout(() => {
+                breathCircle.style.animation = '';
+            }, 10);
+            
+            breathCircle.textContent = 'Breathe In';
+            document.getElementById('breathing-timer').style.display = 'none';
+        });
+
+        // Sleep log form functionality
+        document.getElementById('sleepForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get form values
+            const bedtime = document.getElementById('bedtime').value;
+            const waketime = document.getElementById('waketime').value;
+            const quality = document.getElementById('sleep-quality').value;
+            const dreams = document.getElementById('dreams').value;
+            const notes = document.getElementById('notes').value;
+
+            // Create new sleep entry
+            const entryElement = document.createElement('div');
+            entryElement.className = 'sleep-entry';
+            
+            // Calculate sleep duration
+            const sleepDuration = calculateSleepDuration(bedtime, waketime);
+            const qualityText = getQualityText(quality);
+
+            entryElement.innerHTML = `
+                <h3>${formatTime(bedtime)} - ${formatTime(waketime)}</h3>
+                <div class="sleep-meta">
+                    <span>Duration: ${sleepDuration}</span>
+                    <span>Quality: ${qualityText}</span>
+                </div>
+                ${dreams > 0 ? `<p><strong>Dreams:</strong> ${dreams}</p>` : ''}
+                ${notes ? `<p><strong>Notes:</strong> ${notes}</p>` : ''}
+            `;
+
+            // Add to the top of entries list
+            const entriesContainer = document.getElementById('sleepEntries');
+            if (entriesContainer.querySelector('p:not(.sleep-entry p)')) {
+                entriesContainer.removeChild(entriesContainer.querySelector('p:not(.sleep-entry p)'));
+            }
+            entriesContainer.insertBefore(entryElement, entriesContainer.firstChild);
+            
+            // Show confirmation
+            alert('Sleep log saved successfully!');
+            
+            // Reset form
+            this.reset();
+        });
+        
+        function getQualityText(quality) {
+            const qualityMap = {
+                'excellent': 'Excellent ★★★★★',
+                'good': 'Good ★★★★☆',
+                'fair': 'Fair ★★★☆☆',
+                'poor': 'Poor ★★☆☆☆'
+            };
+            return qualityMap[quality] || quality;
+        }
+
+        // Helper function to format time (HH:MM to 12-hour format)
+        function formatTime(timeString) {
+            if (!timeString) return '';
+            
+            const [hours, minutes] = timeString.split(':');
+            const hour = parseInt(hours);
+            const ampm = hour >= 12 ? 'PM' : 'AM';
+            const hour12 = hour % 12 || 12;
+            
+            return `${hour12}:${minutes} ${ampm}`;
+        }
+        
+        // Helper function to calculate sleep duration
+        function calculateSleepDuration(bedtime, waketime) {
+            if (!bedtime || !waketime) return '';
+            
+            const [bedHours, bedMins] = bedtime.split(':').map(Number);
+            const [wakeHours, wakeMins] = waketime.split(':').map(Number);
+            
+            let bedTotal = bedHours * 60 + bedMins;
+            let wakeTotal = wakeHours * 60 + wakeMins;
+
+            // Handle overnight sleep
+            if (wakeTotal < bedTotal) {
+                wakeTotal += 24 * 60;
+            }
+            
+            const durationMinutes = wakeTotal - bedTotal;
+            const hours = Math.floor(durationMinutes / 60);
+            const minutes = durationMinutes % 60;
+            
+            return `${hours}h ${minutes}m`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker | LifeBalance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #1c2541;
+            --primary-blue: #3a506b;
+            --primary-teal: #5bc0be;
+            --accent-teal: #6fffe9;
+            --text-dark: #0b132b;
+            --text-light: #f8f9fa;
+            --bg-gradient: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--bg-gradient);
+            margin: 0;
+            padding: 0;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        nav {
+            background-color: var(--primary-dark);
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            letter-spacing: 1px;
+        }
+        
+        .nav-links a {
+            margin-left: 1.5rem;
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 0;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .nav-links a:hover {
+            border-bottom: 2px solid var(--accent-teal);
+            color: var(--accent-teal);
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .container:hover {
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-dark);
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        h1::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--primary-teal);
+            margin: 0.5rem auto;
+            border-radius: 2px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .btn {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .habit-form {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            display: none;
+            border-left: 4px solid var(--primary-teal);
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .habit-form input, .habit-form select {
+            width: 100%;
+            padding: 0.75rem;
+            margin: 0.5rem 0 1.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Roboto', sans-serif;
+            transition: var(--transition);
+        }
+        
+        .habit-form input:focus, .habit-form select:focus {
+            outline: none;
+            border-color: var(--primary-teal);
+            box-shadow: 0 0 0 2px rgba(91, 192, 190, 0.2);
+        }
+        
+        .habit-list {
+            margin-bottom: 3rem;
+        }
+        
+        .habit-item {
+            background-color: white;
+            border: 1px solid #eee;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .habit-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--primary-teal);
+        }
+        
+        .streak {
+            background-color: rgba(91, 192, 190, 0.1);
+            color: var(--primary-blue);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            min-width: 100px;
+            text-align: center;
+        }
+        
+        .badge-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .badge {
+            background-color: white;
+            padding: 1.5rem;
+            text-align: center;
+            border-radius: 8px;
+            transition: var(--transition);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .badge:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .badge-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+        
+        .badge:hover .badge-icon {
+            transform: scale(1.1);
+        }
+        
+        .locked {
+            opacity: 0.6;
+            position: relative;
+        }
+        
+        .locked::after {
+            content: '🔒';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1rem;
+        }
+        
+        #cancelBtn {
+            background-color: #95a5a6;
+            margin-left: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            
+            .badge-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            nav {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                margin-top: 1rem;
+            }
+            
+            .nav-links a {
+                margin: 0 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">LifeBalance</div>
+        <div class="nav-links">
+            <a href="#" onclick="location.href='homeage1.html'">Home Page</a>
+            <a href="#" onclick="location.href='trackfellings.html'">Your Feelings</a>
+            <a href="#" onclick="location.href='accessibility.html'">Settings</a>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>My Habit Tracker</h1>
+        
+        <div class="header">
+            <h2>Your Habits</h2>
+            <button class="btn" id="showFormBtn">+ Create Habit</button>
+        </div>
+
+        <!-- Habit Creation Form -->
+        <div class="habit-form" id="habitForm">
+            <h3>Add New Habit</h3>
+            <form id="addHabitForm">
+                <label for="habitName">Habit Name:</label>
+                <input type="text" id="habitName" required>
+                
+                <label for="habitCategory">Category:</label>
+                <select id="habitCategory" required>
+                    <option value="health">Health</option>
+                    <option value="study">Study</option>
+                    <option value="exercise">Exercise</option>
+                    <option value="other">Other</option>
+                </select>
+                
+                <button type="submit" class="btn">Save Habit</button>
+                <button type="button" class="btn" id="cancelBtn">Cancel</button>
+            </form>
+        </div>
+
+        <!-- Habit List -->
+        <div class="habit-list" id="habitList">
+            <div class="habit-item">
+                <div>
+                    <h3>Drink Water</h3>
+                    <p>Health • Daily</p>
+                </div>
+                <span class="streak">5 day streak</span>
+            </div>
+            <div class="habit-item">
+                <div>
+                    <h3>Morning Walk</h3>
+                    <p>Exercise • Daily</p>
+                </div>
+                <span class="streak">3 day streak</span>
+            </div>
+        </div>
+
+        <!-- Badge Gallery -->
+        <h2>Badge Gallery</h2>
+        <div class="badge-gallery">
+            <div class="badge">
+                <div class="badge-icon">🏆</div>
+                <div>First Step</div>
+                <small>Complete your first habit</small>
+            </div>
+            <div class="badge">
+                <div class="badge-icon">🔥</div>
+                <div>3-Day Streak</div>
+                <small>Maintain a habit for 3 days</small>
+            </div>
+            <div class="badge locked">
+                <div class="badge-icon">💪</div>
+                <div>7-Day Streak</div>
+                <small>Maintain a habit for 7 days</small>
+            </div>
+            <div class="badge locked">
+                <div class="badge-icon">📚</div>
+                <div>Study Master</div>
+                <small>Complete 10 study sessions</small>
+            </div>
+            <div class="badge locked">
+                <div class="badge-icon">💧</div>
+                <div>Hydration Hero</div>
+                <small>Drink water daily for 2 weeks</small>
+            </div>
+            <div class="badge locked">
+                <div class="badge-icon">🏅</div>
+                <div>30-Day Streak</div>
+                <small>Maintain any habit for 30 days</small>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced JavaScript with animations
+        document.getElementById('showFormBtn').addEventListener('click', function() {
+            const form = document.getElementById('habitForm');
+            form.style.display = 'block';
+            // Scroll to form for better UX
+            form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+        
+        document.getElementById('cancelBtn').addEventListener('click', function() {
+            document.getElementById('habitForm').style.display = 'none';
+        });
+        
+        // Handle form submission
+        document.getElementById('addHabitForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('habitName').value;
+            const category = document.getElementById('habitCategory').value;
+            
+            // Create new habit item with animation
+            const habitItem = document.createElement('div');
+            habitItem.className = 'habit-item';
+            habitItem.style.opacity = '0';
+            habitItem.style.transform = 'translateY(20px)';
+            habitItem.innerHTML = `
+                <div>
+                    <h3>${name}</h3>
+                    <p>${category.charAt(0).toUpperCase() + category.slice(1)} • Daily</p>
+                </div>
+                <span class="streak">1 day streak</span>
+            `;
+            
+            // Add to habit list
+            const habitList = document.getElementById('habitList');
+            habitList.prepend(habitItem);
+            
+            // Animate the new item
+            setTimeout(() => {
+                habitItem.style.opacity = '1';
+                habitItem.style.transform = 'translateY(0)';
+            }, 10);
+            
+            // Reset and hide form
+            document.getElementById('habitName').value = '';
+            document.getElementById('habitForm').style.display = 'none';
+            
+            // Show success notification
+            const notification = document.createElement('div');
+            notification.textContent = 'Habit added successfully!';
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.backgroundColor = 'var(--primary-teal)';
+            notification.style.color = 'white';
+            notification.style.padding = '1rem 2rem';
+            notification.style.borderRadius = '5px';
+            notification.style.boxShadow = '0 3px 10px rgba(0,0,0,0.2)';
+            notification.style.zIndex = '1000';
+            notification.style.transform = 'translateY(100px)';
+            notification.style.opacity = '0';
+            notification.style.transition = 'all 0.3s ease';
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateY(0)';
+                notification.style.opacity = '1';
+            }, 10);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateY(100px)';
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        });
+    </script>   
+</body>
+</html>

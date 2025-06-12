@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | LifeBalance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #e6f0ff;
+            --secondary: #3a0ca3;
+            --accent: #4cc9f0;
+            --success: #4ade80;
+            --warning: #fbbf24;
+            --error: #f87171;
+            --text-dark: #1e293b;
+            --text-medium: #64748b;
+            --text-light: #f8fafc;
+            --bg-light: #f1f5f9;
+            --bg-white: #ffffff;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius-sm: 4px;
+            --radius: 8px;
+            --radius-lg: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.5;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--bg-white);
+            padding: 0.75rem 2rem;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before {
+            content: "⚖️";
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-medium);
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        /* Main Content */
+        .dashboard-container {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .greeting {
+            margin-bottom: 2rem;
+        }
+
+        .greeting h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .greeting p {
+            color: var(--text-medium);
+            font-size: 0.875rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: var(--bg-white);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-card h3 {
+            color: var(--text-medium);
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .stat-trend {
+            display: flex;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--text-medium);
+        }
+
+        .stat-card .trend-up {
+            color: var(--success);
+        }
+
+        .stat-card .trend-down {
+            color: var(--error);
+        }
+
+        /* Habits Section */
+        .section {
+            background-color: var(--bg-white);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .section-header .view-all {
+            font-size: 0.875rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .habit-list {
+            list-style: none;
+        }
+
+        .habit-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .habit-item:last-child {
+            border-bottom: none;
+        }
+
+        .habit-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .habit-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius);
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .habit-details h4 {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .habit-details p {
+            font-size: 0.75rem;
+            color: var(--text-medium);
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-log {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-log:hover {
+            background-color: var(--secondary);
+        }
+
+        .btn-log.completed {
+            background-color: var(--success);
+            pointer-events: none;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-top: 1rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-medium);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: var(--bg-light);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 4px;
+            width: 60%;
+            transition: width 0.3s ease;
+        }
+
+        /* Activity Feed */
+        .activity-feed {
+            list-style: none;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-time {
+            font-size: 0.75rem;
+            color: var(--text-medium);
+            min-width: 60px;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-message {
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-habit {
+            font-size: 0.75rem;
+            color: var(--text-medium);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .activity-habit .habit-badge {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.6875rem;
+        }
+
+        .empty-state {
+            color: var(--text-medium);
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">LifeBalance</div>
+        <div class="nav-links">
+            <a href="habittracker.html">Habittracker</a>
+            <a href="trackfellings.html">FeelingsTracker</a>
+            <a href="accessibility.html">Settings</a>
+        </div>
+    </nav>
+    <div class="dashboard-container">
+        <div class="greeting">
+            <h1>Welcome back, Botle</h1>
+            <p>Here's your daily overview for Thursday, June 12</p>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Current Streak</h3>
+                <div class="stat-value">5 days</div>
+                <div class="stat-trend trend-up">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 4px;">
+                        <path d="M5 15L12 8L19 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    +2 from yesterday
+                </div>
+            </div>
+            <div class="stat-card">
+                <h3>Habits Completed</h3>
+                <div class="stat-value">3/5</div>
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>60% of daily goal</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <h3>Mood Average</h3>
+                <div class="stat-value">7.2</div>
+                <div class="stat-trend trend-down">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 4px;">
+                        <path d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    -0.3 from yesterday
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <h2>Today's Habits</h2>
+                <a href="#" class="view-all">View all</a>
+            </div>
+            <ul class="habit-list">
+                <li class="habit-item">
+                    <div class="habit-info">
+                        <div class="habit-icon">💧</div>
+                        <div class="habit-details">
+                            <h4>Drink water</h4>
+                            <p>8 glasses • 4/8 completed</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-log" data-habit="water">Log</button>
+                </li>
+                <li class="habit-item">
+                    <div class="habit-info">
+                        <div class="habit-icon">🏋️</div>
+                        <div class="habit-details">
+                            <h4>Exercise</h4>
+                            <p>30 minutes • Not started</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-log" data-habit="exercise">Log</button>
+                </li>
+                <li class="habit-item">
+                    <div class="habit-info">
+                        <div class="habit-icon">📚</div>
+                        <div class="habit-details">
+                            <h4>Study session</h4>
+                            <p>2 hours • 45 mins completed</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-log" data-habit="study">Log</button>
+                </li>
+                <li class="habit-item">
+                    <div class="habit-info">
+                        <div class="habit-icon">🧘</div>
+                        <div class="habit-details">
+                            <h4>Meditation</h4>
+                            <p>10 minutes • Not started</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-log" data-habit="meditation">Log</button>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <h2>Recent Activity</h2>
+                <a href="#" class="view-all">View all</a>
+            </div>
+            <ul class="activity-feed" id="activityFeed">
+                <li class="empty-state">Your recent activities will appear here</li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        // Activity feed functionality
+        const activityFeed = document.getElementById('activityFeed');
+        let activities = [];
+        
+        // Function to add a new activity to the feed
+        function addActivity(habitName, action) {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            const activity = {
+                id: Date.now(),
+                time: timeString,
+                habit: habitName,
+                action: action,
+                completed: true
+            };
+            
+            activities.unshift(activity); // Add to beginning of array
+            if (activities.length > 5) activities.pop(); // Keep only 5 most recent
+            
+            renderActivityFeed();
+        }
+        
+        // Function to render the activity feed
+        function renderActivityFeed() {
+            if (activities.length === 0) {
+                activityFeed.innerHTML = '<li class="empty-state">Your recent activities will appear here</li>';
+                return;
+            }
+            
+            activityFeed.innerHTML = activities.map(activity => `
+                <li class="activity-item" data-id="${activity.id}">
+                    <div class="activity-time">${activity.time}</div>
+                    <div class="activity-content">
+                        <div class="activity-message">
+                            You ${activity.action} ${activity.habit}
+                        </div>
+                        <div class="activity-habit">
+                            <span class="habit-badge">${activity.habit}</span>
+                        </div>
+                    </div>
+                </li>
+            `).join('');
+        }
+        
+        // Function to update habit completion
+        function completeHabit(button) {
+            const habitName = button.getAttribute('data-habit');
+            const habitItem = button.closest('.habit-item');
+            const details = habitItem.querySelector('.habit-details p');
+            
+            button.textContent = 'Completed';
+            button.classList.add('completed');
+            
+            // Update the status text
+            details.textContent = details.textContent.replace('Not started', 'Completed')
+                .replace(/\d+\/\d+/, (match) => {
+                    const [current, total] = match.split('/').map(Number);
+                    return `${total}/${total}`;
+                });
+            
+            // Update progress bar
+            updateProgress();
+            
+            // Add to activity feed
+            addActivity(getHabitDisplayName(habitName), 'completed');
+        }
+        
+        // Helper function to get display name for habits
+        function getHabitDisplayName(habitId) {
+            const habitNames = {
+                'water': 'Drink water',
+                'exercise': 'Exercise',
+                'study': 'Study session',
+                'meditation': 'Meditation'
+            };
+            return habitNames[habitId] || habitId;
+        }
+        
+        // Function to update progress bar
+        function updateProgress() {
+            const completedButtons = document.querySelectorAll('.btn-log.completed').length;
+            const totalButtons = document.querySelectorAll('.btn-log').length;
+            const progressPercentage = (completedButtons / totalButtons) * 100;
+            
+            document.querySelector('.progress-fill').style.width = `${progressPercentage}%`;
+            document.querySelector('.stat-value').textContent = `${completedButtons}/${totalButtons}`;
+            document.querySelector('.progress-label span').textContent = `${Math.round(progressPercentage)}% of daily goal`;
+        }
+        
+        // Set up event listeners for habit buttons
+        document.querySelectorAll('.btn-log').forEach(button => {
+            button.addEventListener('click', function() {
+                if (!this.classList.contains('completed')) {
+                    completeHabit(this);
+                }
+            });
+        });
+        
+        // Initialize with some sample activities (optional)
+        addActivity('Meditation', 'started');
+        addActivity('Exercise', 'completed');
+    </script>
+</body>
+</html>
