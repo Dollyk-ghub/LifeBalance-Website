@@ -59,29 +59,86 @@
             border-radius: 2px;
         }
 
-        /* Navigation */
-        nav {
-            background: var(--primary-blue);
-            padding: 0.8rem;
+        /* Main Navigation */
+        .main-nav {
+            background-color: var(--primary-blue);
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: var(--shadow);
         }
 
-        nav ul {
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            letter-spacing: 1px;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-teal);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-teal);
+        }
+
+        /* Settings Navigation */
+        .settings-nav {
+            background: var(--primary-blue);
+            padding: 0.8rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 80px; /* Below main nav */
+            z-index: 99;
+        }
+
+        .settings-nav ul {
             display: flex;
             list-style: none;
             justify-content: center;
             max-width: 1000px;
             margin: 0 auto;
+            gap: 1rem;
         }
 
-        nav li {
-            margin: 0 1rem;
+        .settings-nav li {
+            margin: 0;
         }
 
-        nav a {
+        .settings-nav a {
             color: var(--text-light);
             text-decoration: none;
             padding: 0.5rem 1rem;
@@ -91,7 +148,8 @@
             border-bottom: 2px solid transparent;
         }
 
-        nav a:hover, nav a.active {
+        .settings-nav a:hover, 
+        .settings-nav a.active {
             background: rgba(255, 255, 255, 0.1);
             border-bottom: 2px solid var(--accent-teal);
         }
@@ -338,38 +396,34 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            nav ul {
+            .main-nav {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                margin-top: 1rem;
+                flex-direction: column;
+                gap: 0.5rem;
+                width: 100%;
+            }
+            
+            .nav-links a {
+                text-align: center;
+                padding: 0.5rem;
+            }
+            
+            .settings-nav ul {
                 flex-direction: column;
                 align-items: center;
             }
             
-            .main-nav {
-            background-color: var(--primary-color);
-            padding: 1rem 2rem;
-            box-shadow: var(--shadow);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--light-color);
-            letter-spacing: 1px;
-        }
-            
-            nav li {
-                margin: 0.5rem 0;
+            .settings-nav li {
                 width: 100%;
                 text-align: center;
             }
 
-            nav a {
+            .settings-nav a {
                 display: block;
                 width: 100%;
             }
@@ -389,19 +443,22 @@
     </style>
 </head>
 <body class="theme-light">
+    <!-- Main Navigation -->
     <nav class="main-nav">
-        <div class="logo">LifeBalance</div>
+        <a href="#" class="logo">LifeBalance</a>
         <div class="nav-links">
-            <a href="#" onclick="location.href='habittracker.html'">Habit Tracker</a>
-            <a href="#" onclick="location.href='trackfellings.html'">FeelingsTracker</a>
-
+            <a href="habittracker.html">Habit Tracker</a>
+            <a href="trackfellings.html">Feelings Tracker</a>
+            <a href="#" class="active">Settings</a>
         </div>
     </nav>
+    
     <header>
         <h1>Settings</h1>
     </header>
     
-    <nav>
+    <!-- Settings Navigation -->
+    <nav class="settings-nav">
         <ul>
             <li><a href="#" class="nav-link active" data-section="personalization">Personalization</a></li>
             <li><a href="#" class="nav-link" data-section="notifications">Notifications</a></li>

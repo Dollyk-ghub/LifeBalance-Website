@@ -3,173 +3,296 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Page</title>
-
+    <title>LifeBalance | Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pippins');
-        *{
+        :root {
+            --deep-blue: #1c2541;
+            --medium-blue: #3a506b;
+            --teal: #5bc0be;
+            --light-teal: #6fffe9;
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
         }
-        section {
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, var(--deep-blue), var(--medium-blue));
+            color: var(--white);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 100%;
-            height: 100vh;
-            background: url(images.jpg) no-repeat;
-            background-size: cover;
-            background-position: center;
-            animation: animateBg 5s linear infinite;
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
         }
-        @keyframes animateBg {
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 40px;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .login-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--white);
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, var(--teal), var(--light-teal));
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 3px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            transition: var(--transition);
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--teal);
+            box-shadow: 0 0 0 2px rgba(91, 192, 190, 0.3);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 38px;
+            color: rgba(255, 255, 255, 0.6);
+            transition: var(--transition);
+        }
+
+        .input-field:focus + .input-icon {
+            color: var(--teal);
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+
+        .remember-me input {
+            margin-right: 8px;
+            accent-color: var(--teal);
+        }
+
+        .forgot-password {
+            color: var(--light-teal);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, var(--teal), var(--light-teal));
+            border: none;
+            border-radius: 8px;
+            color: var(--deep-blue);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(91, 192, 190, 0.3);
+        }
+
+        .login-btn span {
+            position: absolute;
+            background: var(--white);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            border-radius: 50%;
+            animation: ripple 1s linear infinite;
+        }
+
+        @keyframes ripple {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 0.5;
+            }
             100% {
-                filter: hue-rotate(360deg);
+                width: 500px;
+                height: 500px;
+                opacity: 0;
             }
         }
-.login-box {
-    position: relative;
-    width: 400px;
-    height: 450px;
-    background: transparent;
-    border: 2px solid rgb(255, 255, 255, .5);
-    border-radius: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(15px);
-}
-h2 {
-    font-size: 2em;
-    color: beige;
-    text-align: center;
-}
-.input-box {
-    position: relative;
-    width: 310px;
-    margin: 30px 0;
-    border-bottom: 2px solid #fff;
-}
-.input-box label {
-    position-area: absolute;
-    top: 50%;
-    left: 5px;
-    transform: translateY(-50%);
-    font-size: 1em;
-    color: #fff;
-    pointer-events: none;
-    transition: .5s;
-}
-.input-box input:focus~label,
-.input-box input:valid~label {
-    top: -5px;
-    transition: .5s;
-}
-.input-box input {
-    width: 100%;
-    height: 50px;
-    background: transparent;
-    border: none;
-    outline: none;
-    font-size: 1em;
-    color: #fff;
-    padding: 0 35px 0 5px;
-}
-.input-box .icon {
-    position: absolute;
-    right: 8px;
-    color: #fff;
-    font-size: 1.2em;
-    line-height: 57px;
-}
-.remember-forgot {
-    margin: -15px 0 15px;
-    font-size: .9em;
-    color: #fff;
-    display: flex;
-    justify-content: space-between;
-}
-.remember-forgot label input {
-    margin-right: 3px;
-}
-.remember-forgot a {
-    color: #fff;
-    text-decoration: none;
-}
-.remember-forgot a:hover {
-    text-decoration: underline;
-}
-button {
-    width: 100%;
-    height: 40px;
-    background: #fff;
-    border: none;
-    outline: none;
-    border-radius: 40px;
-    cursor: pointer;
-    font-size: 1em;
-    color: #000;
-    font-weight: 500;
-}
-.register-link {
-    font-size: .9em;
-    color: #fff;
-    text-align: center;
-    margin: 25px 0 10px;
-}
-.register-link p a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: 600;
-}
-.register-link p a:hover {
-    text-decoration: underline;
-}
-@media(max-width: 360px) {
-    .login-box {
-        width: 100%;
-        height: 100vh;
-        border: none;
-        border-radius: 0;
-    }
-    .input-box {
-        width: 290px;
-    }
-}
+
+        .register-link {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+        }
+
+        .register-link a {
+            color: var(--light-teal);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 20px;
+            }
+            
+            .login-box {
+                padding: 30px;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <section>
-
-    <div class="login-box">
-        <form action="">
-            <h2>Login</h2>
-            <div class="input-box">
-                <span class="icon"><ion-icon name="mail"></ion-icon>
-</span>
-                <input type="email" required>
-                <label>Email</label>
-            </div>
-            <div class="input-box">
-                <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
-                <input type="password" required>
-                <label>Password</label>
-            </div>
-            <div class="remember-forgot">
-                <label><input type="checkbox"> Remember me</label>
-                <a href="#" onclick="location.href='resetpassword.html'"> Forgot Password?</a>
-            </div>
-            <button type="submit" onclick="location.href='homeage1.html'"> Login</button>
-            <div class="register-link">
-                <p>Don't have an account? <a href="#" onclick="location.href='signup.html'">Register</a></p>
-            </div>
-        </form>
-
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Welcome Back</h2>
+            <form>
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" class="input-field" placeholder="Enter your email" required>
+                    <span class="input-icon">
+                        <ion-icon name="mail-outline"></ion-icon>
+                    </span>
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="input-field" placeholder="Enter your password" required>
+                    <span class="input-icon">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                    </span>
+                </div>
+                
+                <div class="options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <a href="resetpassword.html" class="forgot-password">Forgot password?</a>
+                </div>
+                
+                <div>
+                    <button type="button" class="login-btn" onclick="location.href='homeage1.html'"><span></span>Login</button>
+                </div>
+                
+                <div class="register-link">
+                    Don't have an account? <a href="signup.html">Register here</a>
+                </div>
+            </form>
+        </div>
     </div>
-     </section>
+
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    
+    <script>
+        // Ripple effect for the login button
+        document.querySelector('.login-btn').addEventListener('click', function(e) {
+            // Create ripple element
+            const ripple = document.createElement('span');
+            this.appendChild(ripple);
+            
+            // Get click position
+            const x = e.clientX - e.target.getBoundingClientRect().left;
+            const y = e.clientY - e.target.getBoundingClientRect().top;
+            
+            // Position the ripple
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            
+            // Remove ripple after animation
+            setTimeout(() => {
+                ripple.remove();
+            }, 1000);
+        });
+    </script>
 </body>
 </html>
